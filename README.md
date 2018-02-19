@@ -1,5 +1,5 @@
-# Illumination game
-Communal shared-screen experience, controlled by smartphones, for the annual Illumination event.
+# Stranger Science Game
+Communal shared-screen game, themed after a popular sci-fi show.
 
 ## Deploy
 Setup PM2 configuration
