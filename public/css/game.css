@@ -13,14 +13,14 @@
     left: -15px;
     top: 25px;
     /* Hiding to show Phaser's display */
-    display: none;
-    visibility: hidden;
+/*    display: none;
+    visibility: hidden;*/
 }
 .flyer #idle{
     /*top: 10px;*/
     /* Hiding to show Phaser's display */
-    display: none;
-    visibility: hidden;
+/*    display: none;
+    visibility: hidden;*/
 }
 .flyer #cape{
     z-index: 4;

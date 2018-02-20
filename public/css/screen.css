@@ -7,8 +7,9 @@
 body {
     color:#efefef;
     font: 13px Helvetica, Arial;
-    background: #000;
+    background: none;
     overflow: hidden;
+    background-color: black;
 }
 
 #stage {
@@ -79,4 +80,95 @@ body {
     left: 60px;
     top: 525px;
     font-size: 25px;
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+    perspective: 50000px;
+}
+
+/* flip the pane when hovered */
+.flip-container.hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+    width: 1920px;
+    height: 1080px;
+}
+
+/* flip speed goes here */
+.flipper {
+    transition: 0.9s;
+    transform-style: preserve-3d;
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+
+}
+
+/* front pane, placed above back */
+.front {
+    z-index: 2;
+    /* for firefox 31 */
+    transform: rotateY(0deg);
+
+    background: url('../img/paper.jpg');
+    background-repeat: repeat;
+
+    width: 1920px;
+    height: 1080px;
+
+}
+
+
+.vertical.flip-container {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+}
+
+.back {
+    transform: rotateX(180deg);
+}
+
+.flip-container .flipper {
+    transform-origin: 100% 540px; /* half of height */
+}
+
+
+.flip-container.flip .flipper {
+    transform: rotateX(180deg);
+}
+
+.vignette {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  display: block;
+  background-size: cover;
+}
+
+.vignette:after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: radial-gradient(circle, transparent 50%, black 150%);
+}
+
+/* removing shadow on hover
+for demonstration purposes */
+.vignette:hover:after {
+  background: none;
 }

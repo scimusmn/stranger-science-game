@@ -3,6 +3,7 @@ public/video/*
 work/
 *.webm
 *.log
+*.mp4
 
 # Compiled Python files
 *.pyc

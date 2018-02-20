@@ -93,6 +93,22 @@
   </script>
 
   <body>
+
+    <div id="flippy-wrapper" class="flip-container">
+      <div class="flipper">
+        <div class="front">
+          <!-- front content -->
+          <div class="vignette"></div>
+        </div>
+        <div class="back">
+          <!-- back content -->
+          <video width="1920" height="1080" autoplay loop>
+            <source src="/videos/bg.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+
     <div id="stage"></div>
     <h2 id="game-countdown"></h2>
     <!-- <h3 id="join-msg">Visit<br/>play.smm.org</h3> -->
@@ -104,6 +120,7 @@
         <li>No players have joined</li>
       </ul>
     </div>
+
   </body>
 
 </html>

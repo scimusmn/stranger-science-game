@@ -1,7 +1,7 @@
 function Game() {
 
-  var ROUND_DURATION = 76; // 75
-  var LOBBY_DURATION = 24; // 35
+  var ROUND_DURATION = 20; // 76
+  var LOBBY_DURATION = 10; // 24
 
   var GAME_WIDTH = 1920;
   var GAME_HEIGHT = 1080;
@@ -23,13 +23,13 @@ function Game() {
   /* ================= */
   /* PHASER GAME LAYER */
   /* ================= */
-  var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, 'stage', { preload: phaserPreload, create: phaserCreate, update: phaserUpdate, render: phaserRender });
+  var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, 'stage', { preload: phaserPreload, create: phaserCreate, update: phaserUpdate, render: phaserRender }, true);
 
   /* Phaser variables */
   var flyerSpeedVertical = 30;
   var flyerSpeedHorizontal = 25;
 
-  var debugMode = false;
+  var debugMode = true;
   var debugFlyerData = {userid:'debug-user-id12345', usercolor:'#FD6E83', nickname:'Debug', socketid:'debug-socket-id-abc'};
   var cursors;
   var brickPlatforms;
@@ -52,22 +52,21 @@ function Game() {
 
     /* Preload all assets */
 
-    game.load.image('block', 'img/vines.png');
+    game.load.image('block', 'img/vines-1.png');
     game.load.image('block-damaged', 'img/vines-2.png');
     game.load.image('block-damaged-2', 'img/vines-3.png');
-    game.load.image('block-piece', 'img/vine-piece.png');
+    game.load.image('block-piece', 'img/vines-piece.png');
 
     game.load.image('debug-block', 'img/sprites/square1.png');
     game.load.image('crown', 'img/sprites/crown.png');
 
-    game.load.atlasJSONHash('ghost', 'img/sprites/ghost.png', 'img/sprites/ghost.json');
     game.load.atlasJSONHash('led', 'img/sprites/led.png', 'img/sprites/led.json');
 
     game.load.path = 'assets/particlestorm/particles/';
 
-    game.load.image('ash-1', 'img/ash1.png');
-    game.load.image('ash-2', 'img/ash2.png');
-    game.load.image('ash-3', 'img/ash3.png');
+    game.load.image('ash-1', 'img/ash__1.png');
+    game.load.image('ash-2', 'img/ash__2.png');
+    game.load.image('ash-3', 'img/ash__3.png');
 
     // Fonts
     // game.load.bitmapFont('carrier_command', 'fonts/bitmapFonts/carrier_command.png', 'fonts/bitmapFonts/carrier_command.xml');
@@ -101,9 +100,9 @@ function Game() {
     brickEmitter.enableBody = true;
     brickEmitter.makeParticles('block-piece', 0, 100, true, true);
     brickEmitter.gravity = 620;
-    brickEmitter.bounce.setTo(0.4, 0.6);
-    brickEmitter.setScale(0.25, 0.45, 0.25, 0.45);
-    brickEmitter.setAlpha(0.45, 0.85);
+    brickEmitter.bounce.setTo(0.2, 0.45);
+    brickEmitter.setScale(0.45, 0.65, 0.45, 0.65);
+    brickEmitter.setAlpha(0.6, 0.85);
 
     // Game objects
     allFlyersGroup = game.add.group();
@@ -116,22 +115,22 @@ function Game() {
 
     var ashLayer = {
       image: ['ash-1','ash-2','ash-3'],
-      lifespan: 40000,
-      vx: { min: -3, max: 3, control: [{ x: 0, y: 0.1 }, { x: 0.3, y: 0.05 }, { x: 0.6, y: 0.12 }, { x: 0.9, y: 0.1 }] },
-      vy: { min: 0.15, max: 0.2, control: [{ x: 0, y: 0.01 }, { x: 0.3, y: 0.0023 }, { x: 0.6, y: 0.0019 }, { x: 0.9, y: 0.0023 }] },
-      scale: { min: 0.35, max: 0.5 },
-      rotation: { initial: -90, value: 180, control: [{ x: 0, y: 0 }, { x: 0.2, y: 0.5 }, { x: 0.4, y: 1 }, { x: 0.6, y: 0.5 }, { x: 1, y:0 }] },
+      lifespan: 50000,
+      vx: { min: -8, max: 8, control: [{ x: 0, y: 0.1 }, { x: 0.3, y: 0.05 }, { x: 0.6, y: 0.12 }, { x: 0.9, y: 0.1 }] },
+      vy: { min: 0.01, max: 0.025, control: [{ x: 0, y: 0.01 }, { x: 0.3, y: 0.0023 }, { x: 0.6, y: 0.0019 }, { x: 0.9, y: 0.0023 }] },
+      scale: { min: 1, max: 1.5 },
+      rotation: { initial: -90, value: 180, control: [{ x: 0, y: 0 }, { x: 0.2, y: 0.5 }, { x: 0.4, y: 1 }, { x: 0.44, y: 0.5 }, { x: 1, y:0 }] },
     };
 
     ashManager.addData('ashLayer', ashLayer);
 
     emitter = ashManager.createEmitter();
 
-    emitter.force.y = 0.25;
+    emitter.force.y = 0.22;
 
     emitter.addToWorld();
 
-    emitter.emit('ashLayer', [-50, GAME_WIDTH + 50], -10, { repeat: -1, frequency: 280 });
+    emitter.emit('ashLayer', [-50, GAME_WIDTH + 50], -10, { repeat: -1, frequency: 1456 });
 
     if (debugMode == true) {
       _this.addPlayer(debugFlyerData);
@@ -152,19 +151,11 @@ function Game() {
     var flyerSprite = game.add.sprite(0, 0, 'led');
 
     // Animation
-    // var frames = Phaser.Animation.generateFrameNames('ghost_standing', 1, 7, '.png', 4);
-    // flyerSprite.animations.add('idle', frames, 10, true, false);
-
-    // frames = Phaser.Animation.generateFrameNames('ghost_walk', 1, 4, '.png', 4);
-    // flyerSprite.animations.add('fly', frames, 10, true, false);
-
     var frames = Phaser.Animation.generateFrameNames('idle_', 0, 4, '.png', 4);
     flyerSprite.animations.add('idle', frames, 10, true, false);
 
     frames = Phaser.Animation.generateFrameNames('side_', 1, 6, '.png', 4);
     flyerSprite.animations.add('fly', frames, 10, true, false);
-
-    // flyerSprite.scale.setTo(0.5, 0.5);
 
     var flyerInner = game.add.sprite(0, 0, 'led');
 
@@ -376,7 +367,7 @@ function Game() {
     // Detect if any bricks were hit
 
     // Default to swing from upper left of flyer
-    var swipeRadius = 50;
+    var swipeRadius = 72;
     var swipeCircle = {x:f.phaserBody.x, y:f.phaserBody.y + (f.phaserBody.height * 0.125), r:swipeRadius};
 
     // If facing right, swipe from middle right
@@ -431,7 +422,16 @@ function Game() {
       // gameplay with 'revive'
 
       if (roundCountdown > 0) {
-        releasePoints(10, flyer.color, brick.x, brick.y - 15, flyer.dir);
+
+        var brickPts = 10;
+        flyer.score += brickPts;
+
+        // Emit points event to scorer
+        if (pointsCallback) {
+          pointsCallback.call(undefined, flyer.socketid);
+        }
+
+        releasePoints(brickPts, flyer.color, brick.x, brick.y - 15, flyer.dir);
       }
 
       particleBrickBurst(brick.x, brick.y, flyer.dir);
@@ -593,7 +593,7 @@ function Game() {
   this.addPlayer = function(data) {
 
     // Add new flyer div to stage
-    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/hero_fist.png"/><img id="idle" src="img/hero_idle.png"/><img id="fly" src="img/hero_fly.png"/></div>');
+    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/hero_fist.png"/><img id="idle" src="img/kid_idle.png"/><img id="fly" src="img/kid_fly.png"/></div>');
     var flyerDiv = $('#flyer_' + data.userid);
 
     // Pop in
@@ -878,12 +878,18 @@ function Game() {
     // Reset everyone's score
     resetScoreboard();
 
+    // Flip background to UpsideDown
+    document.querySelector("#flippy-wrapper").classList.toggle("flip");
+
     // Reset bricks and physics
     phaserLevelReset();
 
   }
 
   function endRound() {
+
+    // Flip background to living room
+    document.querySelector("#flippy-wrapper").classList.toggle("flip");
 
     // Clear gameplay
     // Show new-round screen
@@ -985,6 +991,8 @@ function Game() {
     var healthNum = 1;
     var r = Math.random();
 
+    // r = 0.99; // temp
+
     if (r < 0.5) {
       astType = 'c';
       healthNum = Math.ceil(Math.random() * 3);
@@ -999,6 +1007,8 @@ function Game() {
       astType = 'a';
       diam = 490;
     }
+
+
 
     var aDiv = $('<div class="asteroid" style=""><img src="img/asteroids/' + astType + '-asteroid-dark.png"/></div>');
 
@@ -1103,6 +1113,7 @@ function Game() {
 
   // Return true if the rectangle and circle are colliding
   function rectCircleCollision(circle, rect) {
+
     var distX = Math.abs(circle.x - rect.x - rect.w / 2);
     var distY = Math.abs(circle.y - rect.y - rect.h / 2);
 
