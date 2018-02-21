@@ -29,7 +29,7 @@ function Game() {
   var flyerSpeedVertical = 30;
   var flyerSpeedHorizontal = 25;
 
-  var debugMode = true;
+  var debugMode = false;
   var debugFlyerData = {userid:'debug-user-id12345', usercolor:'#FD6E83', nickname:'Debug', socketid:'debug-socket-id-abc'};
   var cursors;
   var brickPlatforms;

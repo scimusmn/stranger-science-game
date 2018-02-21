@@ -12,7 +12,7 @@ var strangerLevel4 = [{'x':511.55555555555566,'y':27.388888888888914,'w':91.2,'h
 // Collect all levels (Weight randomness by adding levels multiple times...)
 // var levels = [level1, level2, level3, level4, level5, level6, level7, level8, level8, level9, level4, level4, level4, level7, level7];
 
-var levels = [strangerLevel1, strangerLevel1, strangerLevel1, strangerLevel3, strangerLevel2, strangerLevel4];
+var levels = [strangerLevel1, strangerLevel4];
 
 // De-center all bricks (brick-mapper exports as centered)
 deCenterBricks(strangerLevel1);
