@@ -1,7 +1,7 @@
 function Game() {
 
-  var ROUND_DURATION = 20; // 76
-  var LOBBY_DURATION = 10; // 24
+  var ROUND_DURATION = 40; // 76
+  var LOBBY_DURATION = 7; // 24
 
   var GAME_WIDTH = 1920;
   var GAME_HEIGHT = 1080;
