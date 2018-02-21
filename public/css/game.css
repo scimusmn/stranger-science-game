@@ -13,14 +13,14 @@
     left: -15px;
     top: 25px;
     /* Hiding to show Phaser's display */
-/*    display: none;
-    visibility: hidden;*/
+    display: none;
+    visibility: hidden;
 }
 .flyer #idle{
     /*top: 10px;*/
     /* Hiding to show Phaser's display */
-/*    display: none;
-    visibility: hidden;*/
+    display: none;
+    visibility: hidden;
 }
 .flyer #cape{
     z-index: 4;
@@ -56,8 +56,8 @@
 #fist{
     position: absolute;
     z-index: 2;
-    top:-32px;
-    left:3px;
+    top:-60px;
+    left:-2px;
     opacity:0;
 }
 .highlightRing{

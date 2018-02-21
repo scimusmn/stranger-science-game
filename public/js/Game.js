@@ -57,6 +57,9 @@ function Game() {
     game.load.image('block-damaged-2', 'img/vines-3.png');
     game.load.image('block-piece', 'img/vines-piece.png');
 
+    game.load.image('kid_idle', 'img/kid_idle.png');
+    game.load.image('kid_fly', 'img/kid_fly.png');
+
     game.load.image('debug-block', 'img/sprites/square1.png');
     game.load.image('crown', 'img/sprites/crown.png');
 
@@ -67,9 +70,6 @@ function Game() {
     game.load.image('ash-1', 'img/ash__1.png');
     game.load.image('ash-2', 'img/ash__2.png');
     game.load.image('ash-3', 'img/ash__3.png');
-
-    // Fonts
-    // game.load.bitmapFont('carrier_command', 'fonts/bitmapFonts/carrier_command.png', 'fonts/bitmapFonts/carrier_command.xml');
 
   }
 
@@ -88,11 +88,11 @@ function Game() {
       _this.controlTap(debugFlyerData);
     }, this);
 
-    winnerCrown = game.add.sprite(0, 0, 'crown');
+/*    winnerCrown = game.add.sprite(0, 0, 'crown');
     winnerCrown.name = 'crown';
     winnerCrown.anchor.x = 0.5;
     winnerCrown.anchor.y = 1.9;
-    winnerCrown.scale.setTo(0.14, 0.14);
+    winnerCrown.scale.setTo(0.14, 0.14);*/
 
     // Prepare particle effects
     brickEmitter = game.add.emitter(0, 0, 100);
@@ -150,34 +150,13 @@ function Game() {
 
     var flyerSprite = game.add.sprite(0, 0, 'led');
 
-    // Animation
-    var frames = Phaser.Animation.generateFrameNames('idle_', 0, 4, '.png', 4);
-    flyerSprite.animations.add('idle', frames, 10, true, false);
+    flyerSprite.loadTexture('kid_idle');
 
-    frames = Phaser.Animation.generateFrameNames('side_', 1, 6, '.png', 4);
-    flyerSprite.animations.add('fly', frames, 10, true, false);
-
-    var flyerInner = game.add.sprite(0, 0, 'led');
-
-    // Inner/white
-    frames = Phaser.Animation.generateFrameNames('idle-inner', 1, 5, '.png', 0);
-    flyerInner.animations.add('idle', frames, 10, true, false);
-
-    frames = Phaser.Animation.generateFrameNames('side-inner', 1, 6, '.png', 0);
-    flyerInner.animations.add('fly', frames, 10, true, false);
-
-    flyerSprite.animations.play('fly');
-    flyerSprite.tint = userColor;
-    flyerSprite.setScaleMinMax(-0.8, 0.8, 0.8, 0.8);
+    // flyerSprite.tint = userColor;
+    flyerSprite.setScaleMinMax(-1.0, 1.0, 1.0, 1.0);
 
     flyerSprite.anchor.x = 0.5;
     flyerSprite.anchor.y = 0.5;
-
-    flyerInner.anchor.x = 0.5;
-    flyerInner.anchor.y = 0.48;
-
-    flyerInner.animations.play('fly');
-    flyerInner.setScaleMinMax(-0.8, 0.8, 0.8, 0.8);
 
     // Swipe collision object.
     var flyerRange = game.add.sprite(0, 0, '');
@@ -191,7 +170,6 @@ function Game() {
     // Combine into single flyer sprite
     flyerGroup.addChild(flyerRange);
     flyerGroup.addChild(flyerSprite);
-    flyerGroup.addChild(flyerInner);
 
     game.physics.ninja.enableAABB(flyerGroup, false);
 
@@ -210,7 +188,7 @@ function Game() {
     // Default is 0.3
     flyerGroup.body.bounce = 0.36;
 
-    return [flyerGroup.body, flyerSprite, flyerInner];
+    return [flyerGroup.body, flyerSprite];
 
   }
 
@@ -276,30 +254,24 @@ function Game() {
 
     const fBody = flyer.phaserBody;
     const fSprite = flyer.phaserSprite;
-    const fInner = flyer.phaserInner;
 
     if (flyer.ax < 0) {
 
       fBody.moveLeft(flyerSpeedHorizontal * Math.abs(flyer.ax));
-      fSprite.animations.play('fly');
-      fInner.animations.play('fly');
+      fSprite.loadTexture('kid_fly');
       flyer.dir = -1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
-      fInner.scale.setTo(-flyer.dir, 1.0);
 
     } else if (flyer.ax > 0) {
 
       fBody.moveRight(flyerSpeedHorizontal * Math.abs(flyer.ax));
-      fSprite.animations.play('fly');
-      fInner.animations.play('fly');
+      fSprite.loadTexture('kid_fly');
       flyer.dir = 1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
-      fInner.scale.setTo(-flyer.dir, 1.0);
 
     } else {
 
-      fSprite.animations.play('idle');
-      fInner.animations.play('idle');
+      fSprite.loadTexture('kid_idle');
 
     }
 
@@ -325,20 +297,25 @@ function Game() {
     if (cursors.left.isDown) {
 
       fBody.moveLeft(flyerSpeedHorizontal);
-      fSprite.animations.play('fly');
+
+      // fSprite.animations.play('fly');
+      fSprite.loadTexture('kid_fly');
       flyer.dir = -1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
 
     } else if (cursors.right.isDown) {
 
       fBody.moveRight(flyerSpeedHorizontal);
-      fSprite.animations.play('fly');
+
+      // fSprite.animations.play('fly');
+      fSprite.loadTexture('kid_fly');
       flyer.dir = 1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
 
     } else {
 
-      fSprite.animations.play('idle');
+      // fSprite.animations.play('idle');
+      fSprite.loadTexture('kid_idle');
 
     }
 
@@ -593,7 +570,7 @@ function Game() {
   this.addPlayer = function(data) {
 
     // Add new flyer div to stage
-    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/hero_fist.png"/><img id="idle" src="img/kid_idle.png"/><img id="fly" src="img/kid_fly.png"/></div>');
+    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/kid_fist_2.png"/><img id="idle" src="img/kid_idle.png"/><img id="fly" src="img/kid_fly.png"/></div>');
     var flyerDiv = $('#flyer_' + data.userid);
 
     // Pop in
@@ -611,7 +588,6 @@ function Game() {
     var phaserObj = addPhaserBody(data);
     var pBody = phaserObj[0];
     var pSprite = phaserObj[1];
-    var pInner = phaserObj[2];
 
     // Add to game loop
     var newFlyer = {    userid:data.userid,
@@ -622,7 +598,6 @@ function Game() {
                         fistDiv:$(flyerDiv).children('#fist'),
                         phaserBody: pBody,
                         phaserSprite: pSprite,
-                        phaserInner: pInner,
                         nickname:data.nickname,
                         color:data.usercolor,
                         deadCount: 0,
@@ -879,7 +854,7 @@ function Game() {
     resetScoreboard();
 
     // Flip background to UpsideDown
-    document.querySelector("#flippy-wrapper").classList.toggle("flip");
+    document.querySelector('#flippy-wrapper').classList.toggle('flip');
 
     // Reset bricks and physics
     phaserLevelReset();
@@ -889,7 +864,7 @@ function Game() {
   function endRound() {
 
     // Flip background to living room
-    document.querySelector("#flippy-wrapper").classList.toggle("flip");
+    document.querySelector('#flippy-wrapper').classList.toggle('flip');
 
     // Clear gameplay
     // Show new-round screen
@@ -1007,8 +982,6 @@ function Game() {
       astType = 'a';
       diam = 490;
     }
-
-
 
     var aDiv = $('<div class="asteroid" style=""><img src="img/asteroids/' + astType + '-asteroid-dark.png"/></div>');
 
