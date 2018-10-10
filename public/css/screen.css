@@ -124,7 +124,7 @@ body {
     /* for firefox 31 */
     transform: rotateY(0deg);
 
-    background: url('../img/paper.jpg');
+    background: url('../img/paper.png');
     background-repeat: repeat;
 
     width: 1920px;

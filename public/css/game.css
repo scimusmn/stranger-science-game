@@ -56,8 +56,8 @@
 #fist{
     position: absolute;
     z-index: 2;
-    top:-60px;
-    left:-2px;
+    top:-45px;
+    left:7px;
     opacity:0;
 }
 .highlightRing{

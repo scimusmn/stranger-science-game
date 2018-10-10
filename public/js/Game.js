@@ -261,6 +261,7 @@ function Game() {
       fSprite.loadTexture('kid_fly');
       flyer.dir = -1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
+      TweenLite.set(flyer.fistDiv, { css: { scaleX:flyer.dir } });
 
     } else if (flyer.ax > 0) {
 
@@ -268,6 +269,7 @@ function Game() {
       fSprite.loadTexture('kid_fly');
       flyer.dir = 1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
+      TweenLite.set(flyer.fistDiv, { css: { scaleX:flyer.dir } });
 
     } else {
 
@@ -570,7 +572,7 @@ function Game() {
   this.addPlayer = function(data) {
 
     // Add new flyer div to stage
-    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/kid_fist_2.png"/><img id="idle" src="img/kid_idle.png"/><img id="fly" src="img/kid_fly.png"/></div>');
+    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/kid_fist.png"/><img id="idle" src="img/kid_idle.png"/><img id="fly" src="img/kid_fly.png"/></div>');
     var flyerDiv = $('#flyer_' + data.userid);
 
     // Pop in
@@ -667,8 +669,8 @@ function Game() {
     if (f.stunned) return;
 
     // Swipe action
-    TweenLite.set(f.fistDiv, { css: { rotation: -60 * f.dir, opacity: 1, transformOrigin:'50% 100% 0' } });
-    TweenMax.to(f.fistDiv, 0.4, { css: { rotation: 330 * f.dir, opacity: 0 }, ease: Power3.easeOut });
+    TweenLite.set(f.fistDiv, { css: { rotation: -115 * f.dir, opacity: 1, transformOrigin:'10% 100% 0' } });
+    TweenMax.to(f.fistDiv, 0.74, { css: { rotation: 280 * f.dir, opacity: 0 }, ease: Power3.easeOut });
 
     // Destroy asteroids
     var pnts = smashAsteroids(f.phaserBody.x + 17, f.phaserBody.y + 25, f.dir, f.color);
