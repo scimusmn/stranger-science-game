@@ -9,6 +9,21 @@
 .flyer p{
     font-size: 1.5em;
 }
+
+.flyer p.name{
+    top: -36px !important;
+    position: absolute;
+    
+}
+
+.flyer #fist{
+    position: absolute;
+    z-index: 2;
+    top:-67px;
+    left:11px;
+    opacity:0;
+}
+
 .flyer #fly{
     left: -15px;
     top: 25px;
@@ -53,13 +68,7 @@
     position: absolute;
     z-index: 2;
 }
-#fist{
-    position: absolute;
-    z-index: 2;
-    top:-45px;
-    left:7px;
-    opacity:0;
-}
+
 .highlightRing{
     position: absolute;
     top: -13px;

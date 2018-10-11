@@ -39,10 +39,6 @@ function Game() {
 
   var brickEmitter;
 
-  var ashManager = null;
-  var ashEmitter = null;
-  var wind = 0;
-
   function phaserPreload() {
 
     /* Phaser game settings */
@@ -57,19 +53,13 @@ function Game() {
     game.load.image('block-damaged-2', 'img/vines-3.png');
     game.load.image('block-piece', 'img/vines-piece.png');
 
-    game.load.image('kid_idle', 'img/kid_idle.png');
-    game.load.image('kid_fly', 'img/kid_fly.png');
+    game.load.image('hero_idle', 'img/hero_idle.png');
+    game.load.image('hero_fly', 'img/hero_fly.png');
 
     game.load.image('debug-block', 'img/sprites/square1.png');
     game.load.image('crown', 'img/sprites/crown.png');
 
     game.load.atlasJSONHash('led', 'img/sprites/led.png', 'img/sprites/led.json');
-
-    game.load.path = 'assets/particlestorm/particles/';
-
-    game.load.image('ash-1', 'img/ash__1.png');
-    game.load.image('ash-2', 'img/ash__2.png');
-    game.load.image('ash-3', 'img/ash__3.png');
 
   }
 
@@ -110,28 +100,6 @@ function Game() {
     // Generate brick tile pattern.
     createBrickPlatforms();
 
-    // Setup particle layer
-    ashManager = game.plugins.add(Phaser.ParticleStorm);
-
-    var ashLayer = {
-      image: ['ash-1','ash-2','ash-3'],
-      lifespan: 50000,
-      vx: { min: -8, max: 8, control: [{ x: 0, y: 0.1 }, { x: 0.3, y: 0.05 }, { x: 0.6, y: 0.12 }, { x: 0.9, y: 0.1 }] },
-      vy: { min: 0.01, max: 0.025, control: [{ x: 0, y: 0.01 }, { x: 0.3, y: 0.0023 }, { x: 0.6, y: 0.0019 }, { x: 0.9, y: 0.0023 }] },
-      scale: { min: 1, max: 1.5 },
-      rotation: { initial: -90, value: 180, control: [{ x: 0, y: 0 }, { x: 0.2, y: 0.5 }, { x: 0.4, y: 1 }, { x: 0.44, y: 0.5 }, { x: 1, y:0 }] },
-    };
-
-    ashManager.addData('ashLayer', ashLayer);
-
-    emitter = ashManager.createEmitter();
-
-    emitter.force.y = 0.22;
-
-    emitter.addToWorld();
-
-    emitter.emit('ashLayer', [-50, GAME_WIDTH + 50], -10, { repeat: -1, frequency: 1456 });
-
     if (debugMode == true) {
       _this.addPlayer(debugFlyerData);
     }
@@ -150,7 +118,7 @@ function Game() {
 
     var flyerSprite = game.add.sprite(0, 0, 'led');
 
-    flyerSprite.loadTexture('kid_idle');
+    flyerSprite.loadTexture('hero_idle');
 
     // flyerSprite.tint = userColor;
     flyerSprite.setScaleMinMax(-1.0, 1.0, 1.0, 1.0);
@@ -258,7 +226,7 @@ function Game() {
     if (flyer.ax < 0) {
 
       fBody.moveLeft(flyerSpeedHorizontal * Math.abs(flyer.ax));
-      fSprite.loadTexture('kid_fly');
+      fSprite.loadTexture('hero_fly');
       flyer.dir = -1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
       TweenLite.set(flyer.fistDiv, { css: { scaleX:flyer.dir } });
@@ -266,14 +234,14 @@ function Game() {
     } else if (flyer.ax > 0) {
 
       fBody.moveRight(flyerSpeedHorizontal * Math.abs(flyer.ax));
-      fSprite.loadTexture('kid_fly');
+      fSprite.loadTexture('hero_fly');
       flyer.dir = 1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
       TweenLite.set(flyer.fistDiv, { css: { scaleX:flyer.dir } });
 
     } else {
 
-      fSprite.loadTexture('kid_idle');
+      fSprite.loadTexture('hero_idle');
 
     }
 
@@ -301,7 +269,7 @@ function Game() {
       fBody.moveLeft(flyerSpeedHorizontal);
 
       // fSprite.animations.play('fly');
-      fSprite.loadTexture('kid_fly');
+      fSprite.loadTexture('hero_fly');
       flyer.dir = -1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
 
@@ -310,14 +278,14 @@ function Game() {
       fBody.moveRight(flyerSpeedHorizontal);
 
       // fSprite.animations.play('fly');
-      fSprite.loadTexture('kid_fly');
+      fSprite.loadTexture('hero_fly');
       flyer.dir = 1.0;
       fSprite.scale.setTo(flyer.dir, 1.0);
 
     } else {
 
       // fSprite.animations.play('idle');
-      fSprite.loadTexture('kid_idle');
+      fSprite.loadTexture('hero_idle');
 
     }
 
@@ -572,7 +540,7 @@ function Game() {
   this.addPlayer = function(data) {
 
     // Add new flyer div to stage
-    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/kid_fist.png"/><img id="idle" src="img/kid_idle.png"/><img id="fly" src="img/kid_fly.png"/></div>');
+    $(stageDiv).append('<div id="flyer_' + data.userid + '" class="flyer" ><p class="name" style="color:' + data.usercolor + ';">' + data.nickname + '</p><img id="fist" src="img/hero_fist.png"/><img id="idle" src="img/hero_idle.png"/><img id="fly" src="img/hero_fly.png"/></div>');
     var flyerDiv = $('#flyer_' + data.userid);
 
     // Pop in
@@ -758,7 +726,7 @@ function Game() {
       var aL = parseInt($(ast.div).css('left'), 10) + (ast.diam * 0.5);
       var aT = parseInt($(ast.div).css('top'), 10) + (ast.diam * 0.5);
 
-      if (dist(aL, aT, mineX, mineY) < ast.diam * 1.15) {
+      if (dist(aL, aT, mineX, mineY) < ast.diam * 1.3) {
 
         // Successful strike
 
